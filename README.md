@@ -4,6 +4,8 @@ Premium responsive real estate website using React, Vite, Tailwind CSS, GSAP/Scr
 
 The homepage hero cycles through all ten supplied images every 5 seconds with a 1.2-second crossfade and a slow zoom. It includes pause/play, previous/next controls and a countdown indicator, waits for the next image to load, suspends playback outside the viewport or in hidden tabs, and disables autoplay for reduced-motion preferences. The timer, visibility listener and intersection observer are cleaned up when leaving the homepage.
 
+On mobile (up to 768px, plus compact phone landscape screens), the slideshow uses a separate landscape frame with `object-fit: contain`, with its controls and hero copy below it. All ten complete photographs remain visible; mobile zoom is disabled to prevent renewed edge cropping. Desktop retains its immersive cover layout and slow zoom.
+
 The header includes a scroll-progress line and a mobile menu with keyboard focus containment, Escape dismissal, background inertness and scroll locking. The footer provides direct call/WhatsApp actions, collection links and back-to-top. Mobile typography, image crops, form inputs and 44px controls are refined in `src/styles/polish.css`. Section reveals use each element's scroll position, with lighter motion and no image parallax on smaller viewports.
 
 ## Local development
@@ -15,10 +17,14 @@ npm ci
 npm run dev
 ```
 
+The dev server listens on the local network at port 5173. On this PC use `http://localhost:5173/`; on a phone connected to the same Wi-Fi use the `Network` URL printed by Vite, not `127.0.0.1`. Keep the terminal running. `npm run dev:network` is an alias for the same network configuration. A busy port reports an error instead of silently moving to another port.
+
 ```sh
 npm run build
 npm run preview
 ```
+
+Run `npm test` for nine React/DOM regression groups. These cover all page routes including the homepage, slideshow controls and image failures, image skeleton reset, gallery numbering/zoom/keyboard behavior, shared overlay scroll locks, enquiry validation and blocked-popup/clipboard fallback, mobile-menu focus, query-prefilled forms and Back/hash scroll restoration. GSAP and Lenis are test doubles in this suite; production build and real-browser visual QA remain separate checks.
 
 ## Configure client information
 

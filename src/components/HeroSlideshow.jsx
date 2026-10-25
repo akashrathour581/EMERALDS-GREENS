@@ -12,9 +12,19 @@ export default function HeroSlideshow() {
   const [visible, setVisible] = useState(true);
   const [inView, setInView] = useState(true);
   const [loaded, setLoaded] = useState(() => new Set());
+  const [failed, setFailed] = useState(() => new Set());
   const container = useRef(null);
-  const next = (active + 1) % slides.length;
-  const running = playing && visible && inView && loaded.has(active) && loaded.has(next);
+  const available = (direction) => {
+    for (let step = 1; step < slides.length; step++) {
+      const index = (active + direction * step + slides.length) % slides.length;
+      if (!failed.has(index)) return index;
+    }
+    return null;
+  };
+  const next = available(1);
+  const previousIndex = available(-1);
+  const running =
+    playing && visible && inView && next !== null && loaded.has(active) && loaded.has(next);
 
   useEffect(() => {
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -24,14 +34,24 @@ export default function HeroSlideshow() {
     syncVisibility();
     motion.addEventListener('change', syncMotion);
     document.addEventListener('visibilitychange', syncVisibility);
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting));
-    observer.observe(container.current);
+    const observer =
+      typeof IntersectionObserver === 'function'
+        ? new IntersectionObserver(([entry]) => setInView(entry.isIntersecting))
+        : null;
+    observer?.observe(container.current);
     return () => {
       motion.removeEventListener('change', syncMotion);
       document.removeEventListener('visibilitychange', syncVisibility);
-      observer.disconnect();
+      observer?.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (failed.has(active) && next !== null && loaded.has(next)) {
+      setPrevious(null);
+      setActive(next);
+    }
+  }, [active, failed, loaded, next]);
 
   useEffect(() => {
     if (!running) return;
@@ -43,8 +63,8 @@ export default function HeroSlideshow() {
   }, [active, next, running]);
 
   const go = (direction) => {
-    const target = (active + direction + slides.length) % slides.length;
-    if (!loaded.has(target)) return;
+    const target = direction === 1 ? next : previousIndex;
+    if (target === null || !loaded.has(target)) return;
     setPrevious(active);
     setActive(target);
   };
@@ -60,7 +80,7 @@ export default function HeroSlideshow() {
         {slides.map((n, i) => (
           <div
             key={n}
-            className={`hero-slide ${active === i ? 'is-active' : ''} ${previous === i ? 'was-active' : ''}`}
+            className={`hero-slide ${active === i ? 'is-active' : ''} ${previous === i ? 'was-active' : ''} ${failed.has(i) ? 'has-error' : ''}`}
           >
             <img
               src={image(n)}
@@ -71,6 +91,7 @@ export default function HeroSlideshow() {
               fetchPriority={i === 0 ? 'high' : 'low'}
               decoding="async"
               onLoad={() => setLoaded((current) => new Set(current).add(i))}
+              onError={() => setFailed((current) => new Set(current).add(i))}
             />
           </div>
         ))}
@@ -88,7 +109,7 @@ export default function HeroSlideshow() {
         <button
           type="button"
           onClick={() => go(-1)}
-          disabled={!loaded.has((active + 9) % 10)}
+          disabled={previousIndex === null || !loaded.has(previousIndex)}
           aria-label="Previous image"
         >
           <ChevronLeft size={16} />
@@ -103,7 +124,7 @@ export default function HeroSlideshow() {
         <button
           type="button"
           onClick={() => go(1)}
-          disabled={!loaded.has(next)}
+          disabled={next === null || !loaded.has(next)}
           aria-label="Next image"
         >
           <ChevronRight size={16} />

@@ -4,8 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
+    "dev": "vite --host 0.0.0.0 --port 5173 --strictPort",
+    "dev:network": "vite --host 0.0.0.0 --port 5173 --strictPort",
     "build": "vite build",
+    "test": "node scripts/regression-tests.mjs",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
@@ -21,6 +23,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
+    "esbuild": "^0.25.12",
+    "jsdom": "^26.1.0",
     "prettier": "^3.9.10",
     "vite": "^6.1.0"
   }

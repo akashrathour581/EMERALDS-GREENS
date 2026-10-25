@@ -3,6 +3,7 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight, Phone, MapPin } from 'lucide-react';
 import { Brand } from './UI';
 import { nav, contact } from '../data/project';
+import useScrollLock from '../hooks/useScrollLock';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -11,6 +12,7 @@ export default function Navbar() {
   const toggle = useRef(null);
   const menu = useRef(null);
   const { pathname } = useLocation();
+  useScrollLock(open);
 
   useEffect(() => {
     let frame = 0;
@@ -48,14 +50,11 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!open) return;
-    const oldOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
     const background = [...document.querySelectorAll('main, footer, .whatsapp-float')];
     const previousInert = background.map((el) => el.inert);
     background.forEach((el) => {
       el.inert = true;
     });
-    document.dispatchEvent(new CustomEvent('site:menu', { detail: { open: true } }));
     const frame = requestAnimationFrame(() => menu.current?.querySelector('a')?.focus());
     const key = (e) => {
       if (e.key === 'Escape') {
@@ -77,11 +76,9 @@ export default function Navbar() {
     document.addEventListener('keydown', key);
     return () => {
       cancelAnimationFrame(frame);
-      document.body.style.overflow = oldOverflow;
       background.forEach((el, i) => {
         el.inert = previousInert[i];
       });
-      document.dispatchEvent(new CustomEvent('site:menu', { detail: { open: false } }));
       document.removeEventListener('keydown', key);
     };
   }, [open]);

@@ -69,7 +69,6 @@ function Metadata() {
     document.querySelector('meta[name="description"]').content = description;
     document.querySelector('meta[property="og:title"]').content = document.title;
     document.querySelector('meta[property="og:description"]').content = description;
-    document.getElementById('main-content')?.focus({ preventScroll: true });
   }, [pathname]);
   return null;
 }

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowDown, ArrowUpRight, Mountain, Leaf, Sparkles, Compass } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, MapPin, Mountain, Leaf, Sparkles, Compass } from 'lucide-react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import {

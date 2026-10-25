@@ -7,18 +7,34 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { image } from '../data/project';
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 export function Picture({ n, alt, className = '', priority = false }) {
+  return <PictureAsset key={n} n={n} alt={alt} className={className} priority={priority} />;
+}
+function PictureAsset({ n, alt, className, priority }) {
   const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
   return (
-    <div className={`picture ${loaded ? 'loaded' : ''} ${className}`}>
-      <img
-        src={image(n)}
-        srcSet={`${image(n, 720)} 720w, ${image(n)} 1671w`}
-        sizes={priority ? '100vw' : '(max-width: 700px) 100vw, 65vw'}
-        alt={alt}
-        loading={priority ? 'eager' : 'lazy'}
-        fetchPriority={priority ? 'high' : 'auto'}
-        onLoad={() => setLoaded(true)}
-      />
+    <div className={`picture ${loaded || failed ? 'loaded' : ''} ${className}`}>
+      {failed ? (
+        <span
+          className="image-unavailable"
+          role={alt ? 'img' : undefined}
+          aria-label={alt || undefined}
+          aria-hidden={!alt}
+        >
+          Image unavailable
+        </span>
+      ) : (
+        <img
+          src={image(n)}
+          srcSet={`${image(n, 720)} 720w, ${image(n)} 1671w`}
+          sizes={priority ? '100vw' : '(max-width: 700px) 100vw, 65vw'}
+          alt={alt}
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
+          onLoad={() => setLoaded(true)}
+          onError={() => setFailed(true)}
+        />
+      )}
     </div>
   );
 }

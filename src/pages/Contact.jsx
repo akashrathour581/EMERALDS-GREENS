@@ -2,7 +2,9 @@ import { MapPin, Phone, Mail, ArrowUpRight } from 'lucide-react';
 import { PageHero, SectionHeading } from '../components/UI';
 import ContactForm from '../components/ContactForm';
 import { contact } from '../data/project';
+import { useLocation } from 'react-router-dom';
 export default function Contact() {
+  const { search } = useLocation();
   return (
     <>
       <PageHero
@@ -46,7 +48,7 @@ export default function Contact() {
             )}
           </div>
         </div>
-        <ContactForm />
+        <ContactForm key={search} />
       </section>
       <section className="map-section">
         <div className="map-title">

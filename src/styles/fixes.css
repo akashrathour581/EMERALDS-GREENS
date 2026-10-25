@@ -1,0 +1,206 @@
+/* Functional fixes kept separate from visual design refinements. */
+.image-unavailable {
+  width: 100%;
+  height: 100%;
+  min-height: 80px;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  color: #233e2e;
+  background: #d9dfd1;
+  font-size: 12px;
+  text-align: center;
+}
+.hero-slide.has-error {
+  display: none;
+}
+.lightbox[open] {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  width: 100%;
+  height: 100dvh;
+}
+.lightbox-top,
+.lightbox-bottom {
+  flex-shrink: 0;
+}
+.lightbox-stage {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  height: auto;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.lightbox-canvas {
+  min-width: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-stage img {
+  width: 96%;
+  height: 100%;
+  max-width: none;
+  flex: none;
+  object-fit: contain;
+  transform: none;
+  transition: none;
+}
+.lightbox-error {
+  padding: 25px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Landscape project renders need their own frame on narrow screens.
+   A full-height portrait cover crops most of each original photograph. */
+@media (max-width: 768px), (max-width: 900px) and (max-height: 600px) {
+  .hero {
+    display: grid;
+    grid-template-areas: 'visual' 'controls' 'copy' 'bottom';
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    padding-top: 80px;
+    overflow: hidden;
+  }
+  .hero-slideshow {
+    grid-area: visual;
+    position: relative;
+    inset: auto;
+    width: 100%;
+    aspect-ratio: 1671 / 941;
+    background: #102d25;
+  }
+  .hero-slide img {
+    object-fit: contain;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+  }
+  .hero-slide.is-active img,
+  .hero-slide.was-active img {
+    animation: none;
+    transform: none;
+  }
+  .hero > .hero-shade {
+    display: none;
+  }
+  .hero-slideshow-controls {
+    grid-area: controls;
+    position: relative;
+    inset: auto;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 12px 24px;
+    border-bottom: 1px solid #c5a46d30;
+  }
+  .hero-slideshow-controls .hero-index {
+    margin-right: auto;
+    font-size: 25px;
+  }
+  .hero-slideshow-controls .slide-progress {
+    display: none;
+  }
+  .hero-content {
+    grid-area: copy;
+    position: relative;
+    inset: auto;
+    transform: none;
+    max-width: none;
+    min-width: 0;
+    padding: 32px 24px 22px;
+  }
+  .hero h1 {
+    font-size: clamp(52px, 13.8vw, 82px);
+    line-height: 1.02;
+    letter-spacing: -1.5px;
+  }
+  .hero-location {
+    font-size: 8px;
+    line-height: 1.7;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+  }
+  .hero p {
+    max-width: 540px;
+    font-size: 14px;
+    margin: 22px 0;
+  }
+  .hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 380px;
+  }
+  .hero-actions .button {
+    width: 100%;
+    min-height: 52px;
+    font-size: 12px;
+  }
+  .hero-secondary {
+    align-self: flex-start;
+    min-height: 44px;
+    font-size: 12px;
+  }
+  .hero-bottom {
+    grid-area: bottom;
+    position: relative;
+    inset: auto;
+    padding: 0 24px 24px;
+  }
+  .hero-caption {
+    display: none;
+  }
+  .hero > .render-label {
+    grid-area: visual;
+    position: relative;
+    inset: auto;
+    align-self: end;
+    justify-self: end;
+    z-index: 3;
+    margin: 0 10px 8px;
+    padding: 4px 6px;
+    font-size: 6px;
+    background: #102d25bd;
+    color: #fff;
+    pointer-events: none;
+  }
+}
+.enquiry-draft > .button {
+  margin: 18px 0 8px;
+}
+section[tabindex='-1']:focus {
+  outline: none;
+}
+@media (max-width: 600px) {
+  .enquiry-draft {
+    padding: 18px;
+  }
+  .enquiry-draft textarea {
+    font-size: 16px;
+  }
+  .lightbox-top {
+    gap: 15px;
+  }
+  .lightbox-top > span {
+    line-height: 1.8;
+  }
+  .lightbox-top small {
+    white-space: nowrap;
+  }
+  .lightbox-bottom {
+    column-gap: 10px;
+  }
+  .lightbox-bottom > span {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}

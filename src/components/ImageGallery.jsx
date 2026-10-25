@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize } from 'lucide-react';
 import { Picture } from './UI';
 import { image } from '../data/project';
+import useScrollLock from '../hooks/useScrollLock';
 const labels = [
   'A life above the valley',
   'The arrival experience',
@@ -19,29 +20,58 @@ export default function ImageGallery() {
     [zoom, setZoom] = useState(1);
   const dialog = useRef(null);
   const trigger = useRef(null);
-  const move = (delta) => {
-    setActive((n) => (n + delta + 10) % 10);
+  const stage = useRef(null);
+  const [failedImage, setFailedImage] = useState(null);
+  const isOpen = active !== null;
+  useScrollLock(isOpen);
+  const close = useCallback(() => {
+    setActive(null);
     setZoom(1);
-  };
+  }, []);
+  const move = useCallback((delta) => {
+    setActive((n) => (n === null ? null : (n + delta + labels.length) % labels.length));
+    setZoom(1);
+  }, []);
   useEffect(() => {
-    if (active === null) return;
+    if (!isOpen) return;
     const el = dialog.current;
-    el.showModal();
+    if (!el.open) {
+      if (typeof el.showModal === 'function') el.showModal();
+      else el.setAttribute('open', '');
+    }
+    el.querySelector('button')?.focus();
     const key = (e) => {
-      if (e.key === 'ArrowLeft') move(-1);
-      if (e.key === 'ArrowRight') move(1);
+      if (['ArrowLeft', 'ArrowRight', 'Escape'].includes(e.key)) e.preventDefault();
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') move(-1);
+      else if (e.key === 'ArrowRight') move(1);
+      else if (e.key === 'Tab') {
+        const buttons = [...el.querySelectorAll('button:not(:disabled)')];
+        const first = buttons[0],
+          last = buttons.at(-1);
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
     };
     el.addEventListener('keydown', key);
     return () => {
       el.removeEventListener('keydown', key);
-      el.close();
-      trigger.current?.focus();
+      if (typeof el.close === 'function') el.close();
+      else el.removeAttribute('open');
+      if (trigger.current?.isConnected) trigger.current.focus({ preventScroll: true });
     };
-  }, [active === null]);
-  const close = () => {
-    setActive(null);
-    setZoom(1);
-  };
+  }, [isOpen, move, close]);
+  useEffect(() => {
+    if (stage.current) {
+      stage.current.scrollTop = 0;
+      stage.current.scrollLeft = 0;
+    }
+  }, [active]);
   return (
     <>
       <div className="gallery-grid">
@@ -57,7 +87,7 @@ export default function ImageGallery() {
           >
             <Picture n={i + 1} alt={label} />
             <span>
-              <small>0{String(i + 1).slice(-2)} / ARCHITECTURAL VISUALIZATION</small>
+              <small>{String(i + 1).padStart(2, '0')} / ARCHITECTURAL VISUALIZATION</small>
               {label}
               <Maximize size={19} />
             </span>
@@ -72,6 +102,8 @@ export default function ImageGallery() {
           close();
         }}
         aria-label="Project image viewer"
+        aria-modal="true"
+        onClose={close}
         data-lenis-prevent
       >
         <div className="lightbox-top">
@@ -84,12 +116,24 @@ export default function ImageGallery() {
         </div>
         {active !== null && (
           <>
-            <div className="lightbox-stage">
-              <img
-                src={image(active + 1)}
-                alt={labels[active]}
-                style={{ transform: `scale(${zoom})` }}
-              />
+            <div className="lightbox-stage" ref={stage}>
+              <div
+                className="lightbox-canvas"
+                style={{ width: `${zoom * 100}%`, height: `${zoom * 100}%` }}
+              >
+                {failedImage === active ? (
+                  <p className="lightbox-error" role="status">
+                    This image could not be loaded. Try another image.
+                  </p>
+                ) : (
+                  <img
+                    key={active}
+                    src={image(active + 1)}
+                    alt={labels[active]}
+                    onError={() => setFailedImage(active)}
+                  />
+                )}
+              </div>
             </div>
             <div className="lightbox-bottom">
               <button onClick={() => move(-1)} aria-label="Previous image">
