@@ -2,7 +2,9 @@
 
 Premium responsive real estate website using React, Vite, Tailwind CSS, GSAP/ScrollTrigger, @gsap/react, Lenis, React Router and Lucide. Includes six primary pages, legal information, ten supplied project renders, responsive image variants, a native modal gallery with zoom, residence galleries and a configurable WhatsApp enquiry flow.
 
-The homepage hero cycles through all ten supplied images every 2 seconds with a 700ms crossfade. It includes a pause/play control and a live image counter, waits for the next image to load, pauses advancement in hidden tabs, and disables autoplay for reduced-motion preferences. The timer is cleared when leaving the homepage.
+The homepage hero cycles through all ten supplied images every 5 seconds with a 1.2-second crossfade and a slow zoom. It includes pause/play, previous/next controls and a countdown indicator, waits for the next image to load, suspends playback outside the viewport or in hidden tabs, and disables autoplay for reduced-motion preferences. The timer, visibility listener and intersection observer are cleaned up when leaving the homepage.
+
+The header includes a scroll-progress line and a mobile menu with keyboard focus containment, Escape dismissal, background inertness and scroll locking. The footer provides direct call/WhatsApp actions, collection links and back-to-top. Mobile typography, image crops, form inputs and 44px controls are refined in `src/styles/polish.css`. Section reveals use each element's scroll position, with lighter motion and no image parallax on smaller viewports.
 
 ## Local development
 
@@ -43,5 +45,7 @@ No backend or environment variables are needed. The `.openai/hosting.json` file 
 Each route updates its page title, description and Open Graph text. A sitemap, robots file and semantic HTML are included. This is a client-rendered React application; add build-time prerendering or migrate to an SSR/static-rendered React setup before relying on complete search/social crawler visibility for every route.
 
 Build verification passed. In this session no browser surface was available for visual QA, so real-device layout and interaction verification remains necessary at 360, 390, 768, 1024, 1440px and larger. Specifically check navigation, residence anchors, gallery focus/keyboard/zoom, enquiry validation, reduced motion and direct-route refresh before public client launch.
+
+The polish pass also passed DOM interaction checks for exact 5-second slideshow advancement, pause/play, manual navigation and wraparound, hidden-tab suspension, reduced-motion autoplay, timer/observer cleanup, mobile-menu focus containment, Escape dismissal, route-close behavior and restoration of scroll/background interaction. These checks do not substitute for real-device visual QA.
 
 Animations use scoped `useGSAP` contexts with cleanup and reduced-motion media queries. Lenis uses the GSAP ticker only, synchronizes ScrollTrigger and is omitted for coarse pointers and reduced motion. The floating WhatsApp button appears on all pages with a mobile-safe fixed position; visitors review and send the prefilled message in WhatsApp themselves.

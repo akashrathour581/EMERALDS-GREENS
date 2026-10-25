@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowDown, ArrowUpRight, MapPin, Mountain, Leaf, Sparkles, Compass } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Mountain, Leaf, Sparkles, Compass } from 'lucide-react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import {
@@ -21,9 +21,11 @@ export default function Home() {
       const mm = gsap.matchMedia();
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        tl.from('.hero-slide:first-child img', { scale: 1.13, duration: 2.4 })
-          .from('.hero [data-enter]', { y: 45, opacity: 0, stagger: 0.14, duration: 1.2 }, 0.25)
-          .from('.hero-bottom', { opacity: 0, duration: 1 }, 1);
+        tl.from(
+          '.hero [data-enter]',
+          { y: 30, opacity: 0, stagger: 0.14, duration: 1.2 },
+          0.25,
+        ).from('.hero-bottom', { opacity: 0, duration: 1 }, 1);
       });
       return () => mm.revert();
     },
@@ -59,7 +61,11 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-bottom">
-          <a href="#introduction" className="scroll-cue">
+          <a
+            href="#introduction"
+            className="scroll-cue"
+            aria-label="Scroll to discover the project"
+          >
             <span className="scroll-line" />
             SCROLL TO DISCOVER
             <ArrowDown size={15} />
@@ -119,7 +125,7 @@ export default function Home() {
             </div>
           </div>
           <div className="intro-visual" data-reveal>
-            <div className="intro-image" data-parallax>
+            <div className="intro-image" data-parallax data-mask>
               <Picture n={3} alt="Contemporary stone and glass villa with landscaped gardens" />
             </div>
             <div className="image-seal">
@@ -160,7 +166,7 @@ export default function Home() {
       </section>
       <section className="lifestyle-section">
         <AnimatedReveal className="lifestyle-grid">
-          <div className="lifestyle-photo" data-reveal>
+          <div className="lifestyle-photo" data-reveal data-mask>
             <Picture n={10} alt="Illustrative private pool and garden terrace at sunset" />
             <span className="photo-tag">THE LUXURY OF DOING LESS.</span>
           </div>

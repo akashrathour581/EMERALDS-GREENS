@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ArrowRight, BedDouble, MoveUpRight, Trees } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, BedDouble, Trees } from 'lucide-react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -27,34 +27,58 @@ export function AnimatedReveal({ children, className = '' }) {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
-        gsap.from(ref.current.querySelectorAll('[data-reveal]'), {
-          y: 38,
-          opacity: 0,
-          duration: 1,
-          stagger: 0.12,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: ref.current, start: 'top 88%', once: true },
-        });
-        ref.current
-          .querySelectorAll('[data-parallax]')
-          .forEach((el) =>
-            gsap.fromTo(
-              el,
-              { yPercent: -4 },
-              {
-                yPercent: 4,
-                ease: 'none',
-                scrollTrigger: {
-                  trigger: ref.current,
-                  start: 'top bottom',
-                  end: 'bottom top',
-                  scrub: true,
-                },
-              },
-            ),
+      mm.add(
+        { motion: '(prefers-reduced-motion: no-preference)', desktop: '(min-width: 901px)' },
+        ({ conditions }) => {
+          if (!conditions.motion) return;
+          const targets = [...ref.current.querySelectorAll('[data-reveal]')].filter(
+            (el) => !el.parentElement.closest('[data-reveal]'),
           );
-      });
+          // Keep long mobile sections readable by revealing each item at its own position.
+          targets.forEach((el) => {
+            const itemIndex = [...el.parentElement.children].indexOf(el);
+            gsap.from(el, {
+              y: conditions.desktop ? 32 : 18,
+              opacity: 0,
+              duration: conditions.desktop ? 0.95 : 0.65,
+              delay:
+                conditions.desktop && el.matches('.property-card, .amenities-grid > div')
+                  ? (itemIndex % 4) * 0.07
+                  : 0,
+              ease: 'power3.out',
+              clearProps: 'transform,opacity',
+              scrollTrigger: { trigger: el, start: 'top 92%', once: true },
+            });
+          });
+          ref.current.querySelectorAll('[data-mask]').forEach((el) =>
+            gsap.from(el, {
+              clipPath: 'inset(0 0 12% 0)',
+              duration: 1.3,
+              ease: 'power3.out',
+              clearProps: 'clipPath',
+              scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+            }),
+          );
+          if (conditions.desktop) {
+            ref.current.querySelectorAll('[data-parallax]').forEach((el) =>
+              gsap.fromTo(
+                el,
+                { yPercent: -4 },
+                {
+                  yPercent: 4,
+                  ease: 'none',
+                  scrollTrigger: {
+                    trigger: ref.current,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true,
+                  },
+                },
+              ),
+            );
+          }
+        },
+      );
       return () => mm.revert();
     },
     { scope: ref },

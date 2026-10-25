@@ -1,13 +1,36 @@
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, MapPin } from 'lucide-react';
+import { ArrowUpRight, ArrowUp, MapPin, Phone } from 'lucide-react';
 import { Brand, AnimatedReveal } from './UI';
-import { nav, contact } from '../data/project';
+import { nav, contact, properties } from '../data/project';
 export default function Footer() {
+  const backToTop = () => {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: reduced ? 'instant' : 'smooth' });
+    document.querySelector('.navbar-brand')?.focus({ preventScroll: true });
+  };
   return (
     <footer>
+      <AnimatedReveal className="footer-invitation">
+        <div data-reveal>
+          <span className="eyebrow">A NEW CHAPTER, NATURALLY</span>
+          <h2>
+            Somewhere you
+            <br />
+            <em>belong.</em>
+          </h2>
+        </div>
+        <Link data-reveal to="/contact" className="footer-visit">
+          <span>
+            Let's find your
+            <br />
+            mountain home
+          </span>
+          <ArrowUpRight size={30} strokeWidth={1} />
+        </Link>
+      </AnimatedReveal>
       <AnimatedReveal className="footer-top">
         <div data-reveal>
-          <Link to="/">
+          <Link to="/" aria-label="Emeralds Greens home">
             <Brand />
           </Link>
           <p>
@@ -32,22 +55,56 @@ export default function Footer() {
           </div>
         </div>
         <div data-reveal>
-          <span className="micro">LET’S BEGIN A CONVERSATION</span>
-          <h3>
-            Find your place
+          <span className="micro">THE COLLECTION</span>
+          <div className="footer-links">
+            {properties.map((p) => (
+              <Link key={p.id} to={`/residences#${p.id}`}>
+                {p.name}
+                <ArrowUpRight size={13} />
+              </Link>
+            ))}
+            <Link to="/gallery#floor-plans">
+              Floor Plans
+              <ArrowUpRight size={13} />
+            </Link>
+          </div>
+        </div>
+        <div className="footer-contact" data-reveal>
+          <span className="micro">LET'S TALK</span>
+          <a className="footer-phone" href={`tel:${contact.phone}`}>
+            <Phone size={16} />
+            +91 78078 85417
+          </a>
+          <a
+            className="text-link"
+            href={`https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(contact.whatsappMessage)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Chat on WhatsApp
+            <ArrowUpRight size={16} />
+          </a>
+          <p>
+            Or come and discover
             <br />
-            in the <em>mountains.</em>
-          </h3>
+            the setting for yourself.
+          </p>
           <Link className="text-link" to="/contact">
-            Schedule a visit
-            <ArrowUpRight size={18} />
+            Arrange a private visit
+            <ArrowUpRight size={16} />
           </Link>
         </div>
       </AnimatedReveal>
+      <div className="footer-signature" aria-hidden="true">
+        EMERALDS GREENS
+      </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} Emeralds Greens</span>
-        <span>Luxury Homes Defined by Nature</span>
+        <span>&copy; {new Date().getFullYear()} Emeralds Greens</span>
         <Link to="/legal">Privacy & Disclaimer</Link>
+        <button type="button" className="back-to-top" onClick={backToTop}>
+          Back to top
+          <ArrowUp size={15} />
+        </button>
       </div>
       <p className="legal-note">
         Images are supplied architectural visualizations and are illustrative. Areas are

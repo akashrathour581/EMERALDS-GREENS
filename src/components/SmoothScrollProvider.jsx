@@ -7,16 +7,22 @@ gsap.registerPlugin(ScrollTrigger);
 export default function SmoothScrollProvider({ children }) {
   const { pathname, hash } = useLocation();
   useEffect(() => {
-    const media = matchMedia('(prefers-reduced-motion: reduce)');
-    if (media.matches || !matchMedia('(pointer: fine)').matches) return;
-    const lenis = new Lenis({ duration: 1.05, smoothWheel: true, anchors: true });
-    const tick = (time) => lenis.raf(time * 1000);
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add(tick);
-    return () => {
-      gsap.ticker.remove(tick);
-      lenis.destroy();
-    };
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference) and (pointer: fine)', () => {
+      const lenis = new Lenis({ duration: 1.05, smoothWheel: true, anchors: true });
+      const tick = (time) => lenis.raf(time * 1000);
+      const menu = (event) => (event.detail.open ? lenis.stop() : lenis.start());
+      document.addEventListener('site:menu', menu);
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(tick);
+      if (document.body.style.overflow === 'hidden') lenis.stop();
+      return () => {
+        gsap.ticker.remove(tick);
+        document.removeEventListener('site:menu', menu);
+        lenis.destroy();
+      };
+    });
+    return () => mm.revert();
   }, []);
   useEffect(() => {
     const timer = setTimeout(() => {
