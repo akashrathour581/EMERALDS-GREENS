@@ -18,7 +18,7 @@ npm run preview
 
 ## Configure client information
 
-Edit `src/data/project.js`. Set `contact.whatsapp` to the verified country-code-prefixed number using digits only, e.g. `91` followed by the verified ten-digit number. Set `phone` in international format for click-to-call. Add verified email and a brochure URL when available. Never use a fictitious working contact number.
+Edit `src/data/project.js`. The client-supplied number `+91 7807885417` is configured for WhatsApp and click-to-call. `contact.whatsappMessage` controls the floating button's prefilled project-details and site-visit enquiry. Use digits only with country code for `whatsapp`, and international format for `phone`. Add verified email and a brochure URL when available.
 
 Until WhatsApp is configured, the form prepares a locally copyable enquiry and clearly states that nothing was sent. It never displays a fake success state. Form inputs are not persisted. Once configured, it opens WhatsApp with a prefilled message; the visitor sends it there.
 
@@ -42,4 +42,4 @@ Each route updates its page title, description and Open Graph text. A sitemap, r
 
 Build verification passed. In this session no browser surface was available for visual QA, so real-device layout and interaction verification remains necessary at 360, 390, 768, 1024, 1440px and larger. Specifically check navigation, residence anchors, gallery focus/keyboard/zoom, enquiry validation, reduced motion and direct-route refresh before public client launch.
 
-Animations use scoped `useGSAP` contexts with cleanup and reduced-motion media queries. Lenis uses the GSAP ticker only, synchronizes ScrollTrigger and is omitted for coarse pointers and reduced motion. Enquiry submission is intentionally not connected to an unverified recipient.
+Animations use scoped `useGSAP` contexts with cleanup and reduced-motion media queries. Lenis uses the GSAP ticker only, synchronizes ScrollTrigger and is omitted for coarse pointers and reduced motion. The floating WhatsApp button appears on all pages with a mobile-safe fixed position; visitors review and send the prefilled message in WhatsApp themselves.

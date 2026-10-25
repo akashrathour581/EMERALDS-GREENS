@@ -1,9 +1,11 @@
 export const image = (n, size = 1671) =>
   `/images/estate-${String(n).padStart(2, '0')}-${size}.webp`;
-// Add verified client details here before launching enquiries.
+// Client-supplied contact number. Add remaining details when available.
 export const contact = {
-  whatsapp: '',
-  phone: '',
+  whatsapp: '917807885417',
+  phone: '+917807885417',
+  whatsappMessage:
+    'Hello Emeralds Greens, I am interested in your luxury residences in Kandaghat. Please share the project details and help me schedule a site visit.',
   email: '',
   brochure: '',
   siteUrl: '',

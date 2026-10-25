@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { Routes, Route, useLocation, Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import WhatsAppButton from './components/WhatsAppButton';
 import SmoothScrollProvider from './components/SmoothScrollProvider';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -93,17 +94,16 @@ function Legal() {
         </p>
         <h2>Your information</h2>
         <p>
-          This website has no backend or enquiry database and does not store form data. When a
-          verified WhatsApp number is configured, the form prepares a message that you review and
-          send in WhatsApp. Until then, an enquiry can only be copied locally. Google Fonts and
-          Google Maps make requests to their respective providers and are subject to those
-          providers’ privacy policies. No analytics or advertising cookies are installed by this
-          site.
+          This website has no backend or enquiry database and does not store form data. The enquiry
+          form and floating chat button prepare a message that you review and send in WhatsApp to
+          the client-supplied number, +91 7807885417. Google Fonts and Google Maps make requests to
+          their respective providers and are subject to those providers’ privacy policies. No
+          analytics or advertising cookies are installed by this site.
         </p>
         <h2>Contact details & documents</h2>
         <p>
-          Verified contact information, the original brochure, exact location pin and original floor
-          plans have not yet been supplied. They will be added after confirmation.
+          The contact number has been supplied by the client. The original brochure, exact location
+          pin and original floor plans will be added after confirmation.
         </p>
       </article>
     </>
@@ -142,6 +142,7 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <WhatsAppButton />
     </SmoothScrollProvider>
   );
 }
