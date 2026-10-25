@@ -2,6 +2,8 @@
 
 Premium responsive real estate website using React, Vite, Tailwind CSS, GSAP/ScrollTrigger, @gsap/react, Lenis, React Router and Lucide. Includes six primary pages, legal information, ten supplied project renders, responsive image variants, a native modal gallery with zoom, residence galleries and a configurable WhatsApp enquiry flow.
 
+The homepage hero cycles through all ten supplied images every 2 seconds with a 700ms crossfade. It includes a pause/play control and a live image counter, waits for the next image to load, pauses advancement in hidden tabs, and disables autoplay for reduced-motion preferences. The timer is cleared when leaving the homepage.
+
 ## Local development
 
 Requires Node.js 20.19+ or 22.12+.

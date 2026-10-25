@@ -348,13 +348,74 @@ p {
   color: #fff;
   overflow: hidden;
 }
-.hero > .picture,
+.hero-slideshow,
 .hero-shade {
   position: absolute;
   inset: 0;
 }
-.hero .picture img {
+.hero-slide img {
   object-position: center;
+}
+.hero-slideshow {
+  overflow: hidden;
+  pointer-events: none;
+}
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 700ms ease-in-out;
+}
+.hero-slide.is-active {
+  opacity: 1;
+}
+.hero-slideshow-controls {
+  position: absolute;
+  right: 5%;
+  bottom: 42px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.hero-slideshow-controls button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #ffffff70;
+  border-radius: 50%;
+  background: #102d2533;
+  color: white;
+}
+.hero-slideshow-controls button:hover {
+  background: #102d25bb;
+}
+.hero-index {
+  min-width: 80px;
+  font-variant-numeric: tabular-nums;
+}
+.hero-caption {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  .hero-slideshow-controls {
+    right: 7%;
+  }
+}
+@media (max-width: 600px) {
+  .hero-slideshow-controls {
+    right: 24px;
+    bottom: 35px;
+    gap: 10px;
+  }
+  .hero-index {
+    min-width: 62px;
+  }
 }
 .hero-shade {
   background:
@@ -1708,7 +1769,7 @@ footer {
     min-height: 680px;
     max-height: 1000px;
   }
-  .hero .picture img {
+  .hero-slide img {
     object-position: 42% center;
   }
   .hero-shade {

@@ -13,6 +13,7 @@ import {
   TextLink,
 } from '../components/UI';
 import { properties } from '../data/project';
+import HeroSlideshow from '../components/HeroSlideshow';
 export default function Home() {
   const hero = useRef();
   useGSAP(
@@ -20,7 +21,7 @@ export default function Home() {
       const mm = gsap.matchMedia();
       mm.add('(prefers-reduced-motion: no-preference)', () => {
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        tl.from('.hero .picture img', { scale: 1.13, duration: 2.4 })
+        tl.from('.hero-slide:first-child img', { scale: 1.13, duration: 2.4 })
           .from('.hero [data-enter]', { y: 45, opacity: 0, stagger: 0.14, duration: 1.2 }, 0.25)
           .from('.hero-bottom', { opacity: 0, duration: 1 }, 1);
       });
@@ -31,11 +32,7 @@ export default function Home() {
   return (
     <>
       <section className="hero" ref={hero}>
-        <Picture
-          n={1}
-          alt="Luxury mountain villa overlooking a Himalayan valley at sunrise"
-          priority
-        />
+        <HeroSlideshow />
         <div className="hero-shade" />
         <div className="hero-content">
           <span className="hero-location" data-enter>
@@ -68,9 +65,6 @@ export default function Home() {
             <ArrowDown size={15} />
           </a>
           <span className="hero-caption">A MORE ELEVATED WAY OF LIVING</span>
-          <span className="hero-index">
-            01 <span>/ 10</span>
-          </span>
         </div>
         <span className="render-label">ARCHITECTURAL VISUALIZATION</span>
       </section>
