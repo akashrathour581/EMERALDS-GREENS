@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://emeralds-greens-kandaghat.clearwasp1024.chatgpt.site/sitemap.xml
