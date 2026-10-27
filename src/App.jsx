@@ -101,8 +101,10 @@ function Legal() {
         </p>
         <h2>Contact details & documents</h2>
         <p>
-          The contact number has been supplied by the client. The original brochure, exact location
-          pin and original floor plans will be added after confirmation.
+          The contact number and project brochure have been supplied by the client. The brochure and
+          its floor plans are conceptual and provided for reference. Confirm all current project
+          details and final approved plans with an authorized representative. A verified map pin
+          will be added after confirmation.
         </p>
       </article>
     </>

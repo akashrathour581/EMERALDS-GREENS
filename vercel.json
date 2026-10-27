@@ -1,8 +1,21 @@
 {
   "rewrites": [
     {
-      "source": "/((?!images/|favicon.svg|robots.txt|sitemap.xml|assets/).*)",
+      "source": "/((?!images/|documents/|favicon.svg|robots.txt|sitemap.xml|assets/).*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/documents/emeralds-greens-brochure.pdf",
+      "headers": [
+        { "key": "Content-Type", "value": "application/pdf" },
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Emeralds-Greens-Brochure.pdf\""
+        },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
     }
   ]
 }

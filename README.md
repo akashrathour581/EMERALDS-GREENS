@@ -24,7 +24,7 @@ npm run build
 npm run preview
 ```
 
-Run `npm test` for nine React/DOM regression groups. These cover all page routes including the homepage, slideshow controls and image failures, image skeleton reset, gallery numbering/zoom/keyboard behavior, shared overlay scroll locks, enquiry validation and blocked-popup/clipboard fallback, mobile-menu focus, query-prefilled forms and Back/hash scroll restoration. GSAP and Lenis are test doubles in this suite; production build and real-browser visual QA remain separate checks.
+Run `npm test` for ten React/DOM regression groups. These cover all page routes including the homepage, slideshow controls and image failures, image skeleton reset, gallery numbering/zoom/keyboard behavior, shared overlay scroll locks, enquiry validation and blocked-popup/clipboard fallback, mobile-menu focus, query-prefilled forms and Back/hash scroll restoration. GSAP and Lenis are test doubles in this suite; production build and real-browser visual QA remain separate checks.
 
 ## Configure client information
 
@@ -32,7 +32,9 @@ Edit `src/data/project.js`. The client-supplied number `+91 7807885417` is confi
 
 Until WhatsApp is configured, the form prepares a locally copyable enquiry and clearly states that nothing was sent. It never displays a fake success state. Form inputs are not persisted. Once configured, it opens WhatsApp with a prefilled message; the visitor sends it there.
 
-Place original floor plans and brochure under `public/documents/` once provided. The gallery currently explains their unavailability and offers enquiry links rather than invented documents. The map shows Kandaghat town, not a verified project location. Replace its embed after the project pin is verified.
+The supplied 32-page brochure is stored unchanged at `public/documents/emeralds-greens-brochure.pdf` (4.2 MB). Gallery has a dedicated cover preview, view/download actions and links to the original villa (pages 12-13), duplex (16-17) and apartment (19) layouts. Homepage, residence sections and footer also link to the brochure. The PDF is served as a static file, never imported into JavaScript or preloaded; lightweight WebP previews are loaded lazily. Vite copies it into `dist/documents/` during the build. `vercel.json` excludes `documents/` from SPA rewrites and sets PDF response headers. No PDF renderer dependency, backend, environment variable or extra hosting service is needed. Page-fragment navigation depends on the visitor's PDF viewer; page numbers are displayed as a fallback.
+
+The map still shows Kandaghat town, not a verified project location. Replace its embed after the project pin is verified. The brochure and plans are conceptual; final specifications and current details require project-representative confirmation.
 
 All ten supplied images were converted to WebP at 720px and original-width variants. No stock photography is substituted. Images are labeled architectural visualizations. Property image groupings are illustrative and should be confirmed by the client before sale use. Areas and approximately 32 total units follow the supplied brief; there are no invented prices, availability, RERA data, testimonials or investment claims.
 

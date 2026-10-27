@@ -67,6 +67,10 @@ export default function Footer() {
               Floor Plans
               <ArrowUpRight size={13} />
             </Link>
+            <a href={contact.brochure} target="_blank" rel="noopener noreferrer">
+              Project Brochure
+              <ArrowUpRight size={13} />
+            </a>
           </div>
         </div>
         <div className="footer-contact" data-reveal>

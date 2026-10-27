@@ -7,13 +7,21 @@ export const contact = {
   whatsappMessage:
     'Hello Emeralds Greens, I am interested in your luxury residences in Kandaghat. Please share the project details and help me schedule a site visit.',
   email: '',
-  brochure: '',
+  brochure: '/documents/emeralds-greens-brochure.pdf',
   siteUrl: '',
   address: 'Kandaghat, Himachal Pradesh, India',
+};
+export const brochureDetails = {
+  pages: 32,
+  sizeLabel: '4.2 MB',
+  fileName: 'Emeralds-Greens-Brochure.pdf',
+  cover: '/images/brochure-cover.webp',
 };
 export const properties = [
   {
     id: 'villas',
+    planPage: 12,
+    planPages: '12-13',
     name: 'Luxury Villas',
     category: 'YOUR OWN PRIVATE SANCTUARY',
     beds: 3,
@@ -25,6 +33,8 @@ export const properties = [
   },
   {
     id: 'duplex',
+    planPage: 16,
+    planPages: '16-17',
     name: 'Premium Duplex Houses',
     category: 'A NEW PERSPECTIVE ON HOME',
     beds: 3,
@@ -36,6 +46,8 @@ export const properties = [
   },
   {
     id: 'apartments',
+    planPage: 19,
+    planPages: '19',
     name: 'High-End Apartments',
     category: 'EFFORTLESS MOUNTAIN LIVING',
     beds: 2,

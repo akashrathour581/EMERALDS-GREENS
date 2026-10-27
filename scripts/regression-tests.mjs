@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { build } from 'esbuild';
-import { mkdir, rm } from 'node:fs/promises';
+import { mkdir, readFile, rm } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 import { JSDOM, VirtualConsole } from 'jsdom';
@@ -352,6 +352,51 @@ try {
   passed(
     'all routes/404 render, metadata updates, and same-page query navigation refreshes enquiry context',
   );
+
+  await act(async () => navigate('/gallery'));
+  await flushFrames();
+  const { contact, brochureDetails, properties } = await import('../src/data/project.js');
+  const pdf = await readFile(resolve('public', contact.brochure.slice(1)));
+  assert.equal(pdf.subarray(0, 5).toString(), '%PDF-', 'brochure is a real PDF');
+  assert.equal(
+    document.querySelector('.brochure-actions a[download]').getAttribute('href'),
+    contact.brochure,
+  );
+  assert.equal(
+    document.querySelector('.brochure-actions a[download]').download,
+    brochureDetails.fileName,
+  );
+  assert.equal(
+    document.querySelector('.brochure-actions a[target="_blank"]').getAttribute('href'),
+    contact.brochure,
+  );
+  for (const property of properties) {
+    assert.ok(
+      document.querySelector(
+        `.brochure-plan-card[href="${contact.brochure}#page=${property.planPage}"]`,
+      ),
+    );
+    assert.ok((await readFile(`public/images/floor-plan-${property.id}.webp`)).length > 0);
+  }
+  const hosting = JSON.parse(await readFile('vercel.json', 'utf8'));
+  assert.equal(
+    new RegExp(`^${hosting.rewrites[0].source}$`).test(contact.brochure),
+    false,
+    'PDF bypasses SPA rewrite',
+  );
+  assert.equal(new RegExp(`^${hosting.rewrites[0].source}$`).test('/gallery'), true);
+  assert.equal(
+    hosting.headers
+      .find((rule) => rule.source === contact.brochure)
+      .headers.find((header) => header.key === 'Content-Type').value,
+    'application/pdf',
+  );
+  assert.equal(
+    document.querySelector('iframe[src*="brochure"]'),
+    null,
+    'PDF is not loaded automatically',
+  );
+  passed('brochure view/download links, actual PDF/previews and static PDF routing');
 
   window.scrollTo({ top: 340 });
   window.dispatchEvent(new Event('scroll'));

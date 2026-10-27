@@ -12,7 +12,7 @@ import {
   CTASection,
   TextLink,
 } from '../components/UI';
-import { properties } from '../data/project';
+import { contact, properties } from '../data/project';
 import HeroSlideshow from '../components/HeroSlideshow';
 export default function Home() {
   const hero = useRef();
@@ -112,7 +112,18 @@ export default function Home() {
               residences and the beauty of Himachal Pradesh. An intimate collection of homes for
               those who seek a little more from life—and a little less from the everyday.
             </p>
-            <TextLink to="/about">Discover Our Story</TextLink>
+            <div className="intro-links">
+              <TextLink to="/about">Discover Our Story</TextLink>
+              <a
+                className="text-link"
+                href={contact.brochure}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Project Brochure
+                <ArrowUpRight size={18} />
+              </a>
+            </div>
             <div className="intro-facts" data-reveal>
               <div>
                 <strong>03</strong>

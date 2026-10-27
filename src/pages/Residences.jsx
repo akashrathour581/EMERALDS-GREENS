@@ -8,7 +8,7 @@ import {
   Button,
   CTASection,
 } from '../components/UI';
-import { properties } from '../data/project';
+import { contact, properties } from '../data/project';
 function Residence({ property: p, index }) {
   const [active, setActive] = useState(p.gallery[0]);
   return (
@@ -50,8 +50,18 @@ function Residence({ property: p, index }) {
           </div>
           <p className="fine-print">
             Images are illustrative project renders. Room dimensions, materials, layouts and final
-            specifications require confirmation. Verified floor plans will be added when supplied.
+            specifications require confirmation. Indicative floor plans are available in the
+            supplied brochure.
           </p>
+          <a
+            className="text-link residence-plan-link"
+            href={`${contact.brochure}#page=${p.planPage}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Floor Plan
+            <ArrowUpRight size={17} />
+          </a>
           <Button to={`/contact?interest=${p.id}`}>Enquire About This Home</Button>
         </div>
       </AnimatedReveal>
