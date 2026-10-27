@@ -13,6 +13,7 @@ import Amenities from './pages/Amenities';
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
 import { PageHero } from './components/UI';
+import { contact } from './data/project';
 const metadata = {
   '/': [
     'Luxury Homes Defined by Nature',
@@ -95,16 +96,17 @@ function Legal() {
         <p>
           This website has no backend or enquiry database and does not store form data. The enquiry
           form and floating chat button prepare a message that you review and send in WhatsApp to
-          the client-supplied number, +91 7807885417. Google Fonts and Google Maps make requests to
-          their respective providers and are subject to those providers’ privacy policies. No
-          analytics or advertising cookies are installed by this site.
+          the client-supplied number, {contact.phoneDisplay}. Google Fonts and Google Maps make
+          requests to their respective providers and are subject to those providers’ privacy
+          policies. No analytics or advertising cookies are installed by this site.
         </p>
         <h2>Contact details & documents</h2>
         <p>
           The contact number and project brochure have been supplied by the client. The brochure and
           its floor plans are conceptual and provided for reference. Confirm all current project
-          details and final approved plans with an authorized representative. A verified map pin
-          will be added after confirmation.
+          details and final approved plans with an authorized representative. The site address and
+          email are supplied by the client. Please confirm arrival directions when arranging a
+          visit.
         </p>
       </article>
     </>

@@ -1,15 +1,23 @@
 export const image = (n, size = 1671) =>
   `/images/estate-${String(n).padStart(2, '0')}-${size}.webp`;
-// Client-supplied contact number. Add remaining details when available.
+// Client-supplied contact details used throughout the website.
 export const contact = {
-  whatsapp: '917807885417',
-  phone: '+917807885417',
+  whatsapp: '919592503836',
+  phone: '+919592503836',
+  phoneDisplay: '+91 95925 03836',
   whatsappMessage:
     'Hello Emeralds Greens, I am interested in your luxury residences in Kandaghat. Please share the project details and help me schedule a site visit.',
-  email: '',
+  email: 'emeraldgreensshimla@gmail.com',
   brochure: '/documents/emeralds-greens-brochure.pdf',
   siteUrl: '',
-  address: 'Kandaghat, Himachal Pradesh, India',
+  address:
+    '2.6 km Kandaghat - Chail Road, Village Kotla, Tehsil Kandaghat, District Solan, Himachal Pradesh, India',
+  locality: 'Village Kotla, Kandaghat',
+  mapQuery: 'Village Kotla, Kandaghat - Chail Road, Kandaghat, Solan, Himachal Pradesh, India',
+};
+export const mapLinks = {
+  directions: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.mapQuery)}`,
+  embed: `https://maps.google.com/maps?q=${encodeURIComponent(contact.mapQuery)}&z=14&output=embed`,
 };
 export const brochureDetails = {
   pages: 32,

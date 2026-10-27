@@ -12,7 +12,7 @@ import {
   CTASection,
   TextLink,
 } from '../components/UI';
-import { contact, properties } from '../data/project';
+import { contact, mapLinks, properties } from '../data/project';
 import HeroSlideshow from '../components/HeroSlideshow';
 export default function Home() {
   const hero = useRef();
@@ -223,14 +223,10 @@ export default function Home() {
             </p>
             <span className="location-pin">
               <MapPin size={18} />
-              Kandaghat, Himachal Pradesh
+              {contact.locality}
             </span>
-            <a
-              className="text-link"
-              href="https://www.google.com/maps/search/?api=1&query=Kandaghat+Himachal+Pradesh"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <p className="body-text site-address">{contact.address}</p>
+            <a className="text-link" href={mapLinks.directions} target="_blank" rel="noreferrer">
               Explore the Location
               <ArrowUpRight size={18} />
             </a>

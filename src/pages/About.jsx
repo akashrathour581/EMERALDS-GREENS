@@ -6,6 +6,7 @@ import {
   CTASection,
   TextLink,
 } from '../components/UI';
+import { contact } from '../data/project';
 export default function About() {
   return (
     <>
@@ -57,7 +58,7 @@ export default function About() {
           </div>
           <dl className="fact-list" data-reveal>
             {[
-              ['Address', 'Kandaghat, Himachal Pradesh'],
+              ['Address', contact.address],
               ['Collection', 'Villas, duplex houses & apartments'],
               ['Project scale', 'Approximately 32 units, as mentioned in the brochure'],
               ['Carpet areas', 'Approx. 850–2,170 sq ft'],

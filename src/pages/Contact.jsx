@@ -1,7 +1,7 @@
 import { MapPin, Phone, Mail, ArrowUpRight } from 'lucide-react';
 import { PageHero, SectionHeading } from '../components/UI';
 import ContactForm from '../components/ContactForm';
-import { contact } from '../data/project';
+import { contact, mapLinks } from '../data/project';
 import { useLocation } from 'react-router-dom';
 export default function Contact() {
   const { search } = useLocation();
@@ -32,7 +32,7 @@ export default function Contact() {
             {contact.phone ? (
               <a href={`tel:${contact.phone}`}>
                 <Phone />
-                {contact.phone}
+                {contact.phoneDisplay}
               </a>
             ) : (
               <span>
@@ -53,21 +53,17 @@ export default function Contact() {
       <section className="map-section">
         <div className="map-title">
           <span className="eyebrow">FIND THE SETTING</span>
-          <h3>Kandaghat, Himachal Pradesh</h3>
-          <p>Map shows Kandaghat town; the exact project pin is awaiting confirmation.</p>
-          <a
-            className="text-link"
-            href="https://www.google.com/maps/search/?api=1&query=Kandaghat+Himachal+Pradesh"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <h3>{contact.locality}</h3>
+          <p>{contact.address}</p>
+          <p>Please call ahead to confirm directions for your visit.</p>
+          <a className="text-link" href={mapLinks.directions} target="_blank" rel="noreferrer">
             Open Google Maps
             <ArrowUpRight size={16} />
           </a>
         </div>
         <iframe
-          title="Map of Kandaghat town, Himachal Pradesh"
-          src="https://maps.google.com/maps?q=Kandaghat%2C%20Himachal%20Pradesh&t=&z=12&ie=UTF8&iwloc=&output=embed"
+          title="Map search for the supplied Emeralds Greens site address in Village Kotla"
+          src={mapLinks.embed}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
           allowFullScreen

@@ -11,6 +11,43 @@
   font-size: 12px;
   text-align: center;
 }
+.footer-email {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 11px;
+  line-height: 1.7;
+  color: #d8be8b;
+  margin: 0 0 18px;
+}
+.footer-email > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.footer-email > svg,
+.contact-details svg,
+.mobile-menu-contact svg {
+  flex-shrink: 0;
+}
+.footer-email > svg {
+  margin-top: 2px;
+}
+.mobile-menu-contact > span {
+  align-items: flex-start;
+  line-height: 1.8;
+}
+.mobile-menu-contact > span > svg {
+  margin-top: 3px;
+}
+.mobile-menu-contact .mobile-menu-email > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  color: inherit;
+}
+.contact-details > a {
+  overflow-wrap: anywhere;
+}
 .hero-slide.has-error {
   display: none;
 }

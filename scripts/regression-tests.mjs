@@ -274,7 +274,7 @@ try {
     return null;
   }; // Simulate a blocked mobile popup.
   field(form, 'name', '   ');
-  field(form, 'phone', '7807885417');
+  field(form, 'phone', '9876543210');
   await event(form, 'submit');
   assert.equal(opens, 0);
   assert.ok(form.elements.name.validationMessage);
@@ -283,11 +283,11 @@ try {
   await event(form, 'submit');
   assert.equal(opens, 0);
   assert.ok(form.elements.phone.validationMessage);
-  field(form, 'phone', '+91 78078 85417');
+  field(form, 'phone', '+91 98765 43210');
   await event(form, 'submit');
   assert.equal(opens, 1);
   const url = new URL(document.querySelector('.enquiry-draft a').href);
-  assert.equal(url.pathname, '/917807885417');
+  assert.equal(url.pathname, '/919592503836');
   assert.match(url.searchParams.get('text'), /Luxury Villas/);
   await click(document.querySelector('.enquiry-draft button'));
   assert.match(document.querySelector('[role="status"]').textContent, /message is selected/);
@@ -344,6 +344,13 @@ try {
   }
   await act(async () => navigate('/contact?interest=villas'));
   await flushFrames();
+  assert.ok(document.querySelector('.contact-details a[href="tel:+919592503836"]'));
+  assert.ok(
+    document.querySelector('.contact-details a[href="mailto:emeraldgreensshimla@gmail.com"]'),
+  );
+  assert.ok(document.querySelector('footer a[href="mailto:emeraldgreensshimla@gmail.com"]'));
+  assert.match(document.querySelector('.contact-details').textContent, /Village Kotla/);
+  assert.match(document.querySelector('.map-section iframe').src, /Village%20Kotla/);
   assert.equal(document.querySelector('[name="interest"]').value, 'Luxury Villas');
   await act(async () => navigate('/contact?interest=apartments&subject=Brochure'));
   await flushFrames();

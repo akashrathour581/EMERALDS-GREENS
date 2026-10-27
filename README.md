@@ -28,13 +28,13 @@ Run `npm test` for ten React/DOM regression groups. These cover all page routes 
 
 ## Configure client information
 
-Edit `src/data/project.js`. The client-supplied number `+91 7807885417` is configured for WhatsApp and click-to-call. `contact.whatsappMessage` controls the floating button's prefilled project-details and site-visit enquiry. Use digits only with country code for `whatsapp`, and international format for `phone`. Add verified email and a brochure URL when available.
+Edit `src/data/project.js`. The client-supplied number `+91 95925 03836` is configured for WhatsApp and click-to-call. The email is `emeraldgreensshimla@gmail.com`. The supplied site address is 2.6 km Kandaghat - Chail Road, Village Kotla, Tehsil Kandaghat, District Solan, Himachal Pradesh, India. `contact.whatsappMessage` controls the floating button's prefilled project-details and site-visit enquiry. Use digits only with country code for `whatsapp`, and international format for `phone`. Display text, email links and map searches all use this shared configuration.
 
 Until WhatsApp is configured, the form prepares a locally copyable enquiry and clearly states that nothing was sent. It never displays a fake success state. Form inputs are not persisted. Once configured, it opens WhatsApp with a prefilled message; the visitor sends it there.
 
 The supplied 32-page brochure is stored unchanged at `public/documents/emeralds-greens-brochure.pdf` (4.2 MB). Gallery has a dedicated cover preview, view/download actions and links to the original villa (pages 12-13), duplex (16-17) and apartment (19) layouts. Homepage, residence sections and footer also link to the brochure. The PDF is served as a static file, never imported into JavaScript or preloaded; lightweight WebP previews are loaded lazily. Vite copies it into `dist/documents/` during the build. `vercel.json` excludes `documents/` from SPA rewrites and sets PDF response headers. No PDF renderer dependency, backend, environment variable or extra hosting service is needed. Page-fragment navigation depends on the visitor's PDF viewer; page numbers are displayed as a fallback.
 
-The map still shows Kandaghat town, not a verified project location. Replace its embed after the project pin is verified. The brochure and plans are conceptual; final specifications and current details require project-representative confirmation.
+The map searches for the client-supplied site address in Village Kotla, Kandaghat - Chail Road. Visitors should confirm arrival directions when scheduling a visit. The brochure and plans are conceptual; final specifications and current details require project-representative confirmation.
 
 All ten supplied images were converted to WebP at 720px and original-width variants. No stock photography is substituted. Images are labeled architectural visualizations. Property image groupings are illustrative and should be confirmed by the client before sale use. Areas and approximately 32 total units follow the supplied brief; there are no invented prices, availability, RERA data, testimonials or investment claims.
 

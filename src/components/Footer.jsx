@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ArrowUp, MapPin, Phone } from 'lucide-react';
+import { ArrowUpRight, ArrowUp, MapPin, Phone, Mail } from 'lucide-react';
 import { Brand, AnimatedReveal } from './UI';
 import { nav, contact, properties } from '../data/project';
 export default function Footer() {
@@ -77,7 +77,11 @@ export default function Footer() {
           <span className="micro">LET'S TALK</span>
           <a className="footer-phone" href={`tel:${contact.phone}`}>
             <Phone size={16} />
-            +91 78078 85417
+            {contact.phoneDisplay}
+          </a>
+          <a className="footer-email" href={`mailto:${contact.email}`}>
+            <Mail size={15} />
+            <span>{contact.email}</span>
           </a>
           <a
             className="text-link"

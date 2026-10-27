@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { Menu, X, ArrowUpRight, Phone, MapPin } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Phone, MapPin, Mail } from 'lucide-react';
 import { Brand } from './UI';
 import { nav, contact } from '../data/project';
 import useScrollLock from '../hooks/useScrollLock';
@@ -141,12 +141,16 @@ export default function Navbar() {
         <div className="mobile-menu-contact">
           <span>
             <MapPin size={14} />
-            Kandaghat, Himachal Pradesh
+            {contact.address}
           </span>
           <a href={`tel:${contact.phone}`}>
             <Phone size={15} />
-            +91 78078 85417
+            {contact.phoneDisplay}
             <ArrowUpRight size={15} />
+          </a>
+          <a className="mobile-menu-email" href={`mailto:${contact.email}`}>
+            <Mail size={15} />
+            <span>{contact.email}</span>
           </a>
         </div>
       </nav>
