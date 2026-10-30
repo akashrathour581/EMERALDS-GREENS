@@ -11,7 +11,7 @@ export default function Contact() {
         eyebrow="LET’S BEGIN A CONVERSATION"
         title="Your next chapter"
         italic="starts here."
-        n={7}
+        n="emerald-01"
       />
       <section className="section contact-grid">
         <div>

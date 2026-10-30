@@ -155,7 +155,7 @@ export function PropertyCard({ property, index }) {
 export function CTASection() {
   return (
     <section className="cta">
-      <Picture n={5} alt="Mountain residences and pool at sunset" />
+      <Picture n="emerald-10" alt="Mountain residences at sunset in Kandaghat" />
       <div className="cta-overlay" />
       <AnimatedReveal className="cta-content">
         <span className="eyebrow" data-reveal>
@@ -171,10 +171,10 @@ export function CTASection() {
     </section>
   );
 }
-export function PageHero({ eyebrow, title, italic, n = 6, children }) {
+export function PageHero({ eyebrow, title, italic, n = 'emerald-11', children }) {
   return (
     <section className="page-hero">
-      <Picture n={n} alt="Emeralds Greens supplied architectural visualization" priority />
+      <Picture n={n} alt="Emeralds Greens official architectural visualization" priority />
       <div className="hero-shade" />
       <div className="page-hero-content">
         <span className="eyebrow">{eyebrow}</span>

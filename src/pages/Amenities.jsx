@@ -37,7 +37,7 @@ export default function Amenities() {
         eyebrow="PLANNED LIFESTYLE & AMENITIES"
         title="The art of living"
         italic="well."
-        n={10}
+        n="emerald-12"
       />
       <section className="section">
         <AnimatedReveal className="editorial-grid">
@@ -56,7 +56,10 @@ export default function Amenities() {
         </p>
       </section>
       <section className="amenity-feature">
-        <Picture n={9} alt="Illustrative landscaped gardens and poolside terrace" />
+        <Picture
+          n="emerald-16"
+          alt="The Club recreation deck featuring private outdoor jacuzzi, sun loungers and dining terrace"
+        />
         <div>
           <span className="eyebrow">TIME TO RECONNECT</span>
           <h2>

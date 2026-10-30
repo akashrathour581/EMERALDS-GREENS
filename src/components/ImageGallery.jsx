@@ -1,37 +1,60 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Maximize } from 'lucide-react';
 import { Picture } from './UI';
-import { image } from '../data/project';
+import {
+  image,
+  curatedGallery,
+  officialProjectRenders,
+} from '../data/project';
 import useScrollLock from '../hooks/useScrollLock';
-const labels = [
-  'A life above the valley',
-  'The arrival experience',
-  'Contemporary mountain villas',
-  'A community in the hills',
-  'Sunset at the retreat',
-  'The golden hour',
-  'Life among the pines',
-  'Landscaped mountain living',
-  'A moment of stillness',
-  'An evening by the pool',
+
+const tabs = [
+  { id: 'curated', label: 'Curated Highlights', items: curatedGallery },
+  { id: 'all', label: 'All Project Renders', items: officialProjectRenders },
+  {
+    id: 'architecture',
+    label: 'Architecture & Site',
+    items: officialProjectRenders.filter(
+      (item) => item.category === 'Architecture' || item.category === 'Master Plan',
+    ),
+  },
+  {
+    id: 'residences',
+    label: 'Residences & Amenities',
+    items: officialProjectRenders.filter(
+      (item) => item.category === 'Residences' || item.category === 'Amenities',
+    ),
+  },
 ];
+
 export default function ImageGallery() {
-  const [active, setActive] = useState(null),
-    [zoom, setZoom] = useState(1);
+  const [tab, setTab] = useState('curated');
+  const [active, setActive] = useState(null);
+  const [zoom, setZoom] = useState(1);
   const dialog = useRef(null);
   const trigger = useRef(null);
   const stage = useRef(null);
   const [failedImage, setFailedImage] = useState(null);
+
+  const activeCategory = tabs.find((t) => t.id === tab) || tabs[0];
+  const items = activeCategory.items;
+
   const isOpen = active !== null;
   useScrollLock(isOpen);
+
   const close = useCallback(() => {
     setActive(null);
     setZoom(1);
   }, []);
-  const move = useCallback((delta) => {
-    setActive((n) => (n === null ? null : (n + delta + labels.length) % labels.length));
-    setZoom(1);
-  }, []);
+
+  const move = useCallback(
+    (delta) => {
+      setActive((n) => (n === null ? null : (n + delta + items.length) % items.length));
+      setZoom(1);
+    },
+    [items.length],
+  );
+
   useEffect(() => {
     if (!isOpen) return;
     const el = dialog.current;
@@ -47,8 +70,8 @@ export default function ImageGallery() {
       else if (e.key === 'ArrowRight') move(1);
       else if (e.key === 'Tab') {
         const buttons = [...el.querySelectorAll('button:not(:disabled)')];
-        const first = buttons[0],
-          last = buttons.at(-1);
+        const first = buttons[0];
+        const last = buttons.at(-1);
         if (e.shiftKey && document.activeElement === first) {
           e.preventDefault();
           last?.focus();
@@ -66,34 +89,59 @@ export default function ImageGallery() {
       if (trigger.current?.isConnected) trigger.current.focus({ preventScroll: true });
     };
   }, [isOpen, move, close]);
+
   useEffect(() => {
     if (stage.current) {
       stage.current.scrollTop = 0;
       stage.current.scrollLeft = 0;
     }
   }, [active]);
+
   return (
     <>
-      <div className="gallery-grid">
-        {labels.map((label, i) => (
+      <div className="gallery-filter-bar" role="tablist" aria-label="Filter gallery by collection">
+        {tabs.map((t) => (
           <button
-            className={`gallery-tile tile-${i}`}
-            key={label}
+            key={t.id}
+            type="button"
+            role="tab"
+            aria-selected={tab === t.id}
+            className={`gallery-filter-pill ${tab === t.id ? 'is-active' : ''}`}
+            onClick={() => {
+              setTab(t.id);
+              setActive(null);
+              setZoom(1);
+            }}
+          >
+            <span>{t.label}</span>
+            <small className="filter-count">{t.items.length}</small>
+          </button>
+        ))}
+      </div>
+
+      <div className="gallery-grid">
+        {items.map((item, i) => (
+          <button
+            className={`gallery-tile tile-${i % 10}`}
+            key={item.id}
             onClick={(e) => {
               trigger.current = e.currentTarget;
               setActive(i);
             }}
-            aria-label={`Open ${label}`}
+            aria-label={`Open ${item.title}`}
           >
-            <Picture n={i + 1} alt={label} />
+            <Picture n={item.image} alt={item.title} />
             <span>
-              <small>{String(i + 1).padStart(2, '0')} / ARCHITECTURAL VISUALIZATION</small>
-              {label}
+              <small>
+                {String(i + 1).padStart(2, '0')} / {item.type}
+              </small>
+              {item.title}
               <Maximize size={19} />
             </span>
           </button>
         ))}
       </div>
+
       <dialog
         ref={dialog}
         className="lightbox"
@@ -108,13 +156,13 @@ export default function ImageGallery() {
       >
         <div className="lightbox-top">
           <span>
-            EMERALDS GREENS <small>{active !== null ? active + 1 : ''} / 10</small>
+            EMERALDS GREENS <small>{active !== null ? active + 1 : ''} / {items.length}</small>
           </span>
           <button onClick={close} aria-label="Close image viewer">
             <X />
           </button>
         </div>
-        {active !== null && (
+        {active !== null && items[active] && (
           <>
             <div className="lightbox-stage" ref={stage}>
               <div
@@ -127,9 +175,9 @@ export default function ImageGallery() {
                   </p>
                 ) : (
                   <img
-                    key={active}
-                    src={image(active + 1)}
-                    alt={labels[active]}
+                    key={items[active].id}
+                    src={image(items[active].image)}
+                    alt={items[active].title}
                     onError={() => setFailedImage(active)}
                   />
                 )}
@@ -139,7 +187,10 @@ export default function ImageGallery() {
               <button onClick={() => move(-1)} aria-label="Previous image">
                 <ChevronLeft />
               </button>
-              <span>{labels[active]}</span>
+              <div className="lightbox-caption-group">
+                <span className="lightbox-title">{items[active].title}</span>
+                <span className="lightbox-type-pill">{items[active].type}</span>
+              </div>
               <div className="zoom-controls">
                 <button
                   onClick={() => setZoom((z) => Math.max(1, z - 0.25))}

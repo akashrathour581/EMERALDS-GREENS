@@ -14,7 +14,7 @@ export default function About() {
         eyebrow="THE EMERALDS GREENS STORY"
         title="A natural sense of"
         italic="belonging."
-        n={2}
+        n="emerald-11"
       />
       <section className="section">
         <AnimatedReveal className="editorial-grid">
@@ -41,7 +41,10 @@ export default function About() {
         </AnimatedReveal>
       </section>
       <div className="wide-image">
-        <Picture n={8} alt="Supplied visualization of landscaped mountain homes" />
+        <Picture
+          n="emerald-03"
+          alt="Emeralds Greens residential towers and master arrival architectural layout"
+        />
       </div>
       <section className="section">
         <AnimatedReveal className="editorial-grid">

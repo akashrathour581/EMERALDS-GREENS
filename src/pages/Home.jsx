@@ -137,7 +137,10 @@ export default function Home() {
           </div>
           <div className="intro-visual" data-reveal>
             <div className="intro-image" data-parallax data-mask>
-              <Picture n={3} alt="Contemporary stone and glass villa with landscaped gardens" />
+              <Picture
+                n="emerald-06"
+                alt="Emeralds Greens twilight architectural elevation with illuminated residences and mountain backdrop"
+              />
             </div>
             <div className="image-seal">
               <Leaf size={22} strokeWidth={1} />
@@ -147,7 +150,7 @@ export default function Home() {
                 CRAFTED FOR YOU.
               </span>
             </div>
-            <span className="photo-caption">01 / THE ART OF MOUNTAIN LIVING</span>
+            <span className="photo-caption">01 / ARCHITECTURAL ELEVATION · KANDAGHAT</span>
           </div>
         </AnimatedReveal>
       </section>
@@ -178,7 +181,10 @@ export default function Home() {
       <section className="lifestyle-section">
         <AnimatedReveal className="lifestyle-grid">
           <div className="lifestyle-photo" data-reveal data-mask>
-            <Picture n={10} alt="Illustrative private pool and garden terrace at sunset" />
+            <Picture
+              n="emerald-12"
+              alt="Emeralds Greens rooftop pergola lounge overlooking pine forest canopy"
+            />
             <span className="photo-tag">THE LUXURY OF DOING LESS.</span>
           </div>
           <div className="lifestyle-copy">
@@ -232,7 +238,10 @@ export default function Home() {
             </a>
           </div>
           <div className="location-image" data-reveal>
-            <Picture n={5} alt="Mountain residences overlooking a verdant valley" />
+            <Picture
+              n="emerald-04"
+              alt="Emeralds Greens master hillside development on Kandaghat-Chail Road"
+            />
             <div className="location-card">
               <MapPin size={21} />
               <div>

@@ -71,7 +71,12 @@ function Residence({ property: p, index }) {
 export default function Residences() {
   return (
     <>
-      <PageHero eyebrow="THE RESIDENCES" title="Find your own" italic="extraordinary." n={3}>
+      <PageHero
+        eyebrow="THE RESIDENCES"
+        title="Find your own"
+        italic="extraordinary."
+        n="emerald-05"
+      >
         <p>Three collections. A shared appreciation for a life well lived.</p>
       </PageHero>
       <div className="collection-nav">

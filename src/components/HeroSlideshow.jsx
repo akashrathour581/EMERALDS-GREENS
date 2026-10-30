@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
-import { image } from '../data/project';
+import { image, heroSlides } from '../data/project';
 
-const slides = Array.from({ length: 10 }, (_, i) => i + 1);
 const SLIDE_INTERVAL = 5000;
 
 export default function HeroSlideshow() {
@@ -14,6 +13,8 @@ export default function HeroSlideshow() {
   const [loaded, setLoaded] = useState(() => new Set());
   const [failed, setFailed] = useState(() => new Set());
   const container = useRef(null);
+  const slides = heroSlides;
+
   const available = (direction) => {
     for (let step = 1; step < slides.length; step++) {
       const index = (active + direction * step + slides.length) % slides.length;
@@ -77,16 +78,16 @@ export default function HeroSlideshow() {
         role="img"
         aria-label="Architectural visualizations of Emeralds Greens mountain residences"
       >
-        {slides.map((n, i) => (
+        {slides.map((s, i) => (
           <div
-            key={n}
+            key={s.id}
             className={`hero-slide ${active === i ? 'is-active' : ''} ${previous === i ? 'was-active' : ''} ${failed.has(i) ? 'has-error' : ''}`}
           >
             <img
-              src={image(n)}
-              srcSet={`${image(n, 720)} 720w, ${image(n)} 1671w`}
+              src={image(s.id)}
+              srcSet={`${image(s.id, 720)} 720w, ${image(s.id)} 1671w`}
               sizes="100vw"
-              alt=""
+              alt={s.label}
               loading="eager"
               fetchPriority={i === 0 ? 'high' : 'low'}
               decoding="async"
